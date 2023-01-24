@@ -89,3 +89,7 @@ git log --all --numstat --date=short --pretty=format:'--%h--%ad--%aN' --no-renam
        ```sh
        java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l logfile.log -c git2 -a main-dev
        ```
+
+---
+
+[code maat](https://github.com/adamtornhill/code-maat)
