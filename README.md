@@ -10,6 +10,12 @@ git log --numstat
 git log --all --numstat --date=short --pretty=format:'--%h--%ad--%aN' --no-renames --after=YYYY-MM-DD --before=YYYY-MM-DD > logfile.log
 ```
 
+- git legacy
+
+  ```sh
+  git log --pretty=format:'[%h] %aN %ad %s' --date=short --numstat --after=YYYY-MM-DD > logfile.log
+  ```
+
 ## Run code maat
 
 1. Help
