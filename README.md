@@ -28,6 +28,8 @@ git log --all --numstat --date=short --pretty=format:'--%h--%ad--%aN' --no-renam
      java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l logfile.log -c git2 -a authors
      ```
 
+3. Run Code Maat
+
    1. Summary Data
 
       ```sh
@@ -87,5 +89,3 @@ git log --all --numstat --date=short --pretty=format:'--%h--%ad--%aN' --no-renam
        ```sh
        java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l logfile.log -c git2 -a main-dev
        ```
-
-
