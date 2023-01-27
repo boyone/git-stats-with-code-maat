@@ -98,4 +98,34 @@ git log --all --numstat --date=short --pretty=format:'--%h--%ad--%aN' --no-renam
 
 ---
 
+## Complexity and Frequency in Git
+
+1. Analyze `revisions` from `logfile.log`
+
+   ```sh
+   java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l logfile.log -c git2 -a revisions > revisions.csv
+   ```
+
+2. Analyze line of code with `cloc`
+
+   - nodejs
+
+     ```sh
+     cloc ./ --by-file --csv --quiet --exclude-dir=node_modules --report-file=./lines.csv
+     ```
+
+   - .NetCore
+
+     ```sh
+     cloc ./ --by-file --csv --quiet --exclude-dir=bin,obj --report-file=./lines.csv
+     ```
+
+3. Analyze `complexity` and `frequency` with `merge_comp_freqs.py`
+
+   ```sh
+   python3 merge_comp_freqs.py revisions.csv lines.csv > comp-freqs.csv
+   ```
+
+---
+
 [code maat](https://github.com/adamtornhill/code-maat)
