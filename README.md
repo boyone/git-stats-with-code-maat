@@ -100,6 +100,8 @@ git log --all --numstat --date=short --pretty=format:'--%h--%ad--%aN' --no-renam
 
 ## Complexity and Frequency in Git
 
+Prerequisite you have to install [cloc](https://github.com/AlDanial/cloc)
+
 1. Analyze `revisions` from `logfile.log`
 
    ```sh
@@ -125,6 +127,19 @@ git log --all --numstat --date=short --pretty=format:'--%h--%ad--%aN' --no-renam
    ```sh
    python3 merge_comp_freqs.py revisions.csv lines.csv > comp-freqs.csv
    ```
+
+---
+
+## Simplify by Run Code Maat via Script
+
+1. Create directory call `code-maat`
+2. Copy the following artifacts to code-maat path
+   - code-maat-1.1-SNAPSHOT-standalone.jar
+     - rename code-maat-1.1-SNAPSHOT-standalone.jar to maat
+   - merge_comp_freqs.py
+3. Set Path to `code-maat` directory
+4. Open `terminal` and run `xlog.sh` in root project
+   - xlog.sh will create folder that contain the statistics call `data` in root project
 
 ---
 
