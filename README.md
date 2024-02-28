@@ -133,11 +133,22 @@ Prerequisite you have to install [cloc](https://github.com/AlDanial/cloc)
 ## Simplify by Run Code Maat via Script
 
 1. Create directory call `code-maat`
-2. Copy the following artifacts to code-maat path
+2. Copy the following artifacts to `code-maat` directory
+
    - code-maat-1.1-SNAPSHOT-standalone.jar
-     - rename code-maat-1.1-SNAPSHOT-standalone.jar to maat
    - merge_comp_freqs.py
-3. Set Path to `code-maat` directory
+   - xlog.sh
+
+3. Set `MAAT_HOME`
+
+   - linux, mac: `.bachrc`
+
+     ```sh
+     export MAAT_HOME=<path to code-maat directory>
+
+     export PATH="$PATH:$MAAT_HOME"
+     ```
+
 4. Open `terminal` and run `xlog.sh` in root project
    - xlog.sh will create folder that contain the statistics call `data` in root project
 
