@@ -1,44 +1,49 @@
 #!/usr/bin/env bash
-# check data dir if not create it
-[[ ! `ls -a data` ]] && `mkdir data`
 
 if [ ${#@} -lt 1 ]; then
-    echo "require at lease 1 parameter, eg. xlog 20181001"
+    echo "require at lease 1 parameter"
+    echo "eg. xlog before(YYYY-MM-DD) : xlog 2018-10-21"
+    echo "    xlog before(YYYY-MM-DD) after(YYYY-MM-DD) : xlog 2018-10-21 2018-01-21"
     exit 1
 fi
 
-if [ ${#@} -gt 2 ]; then
-    BEFORE=$1
-    AFTER=$2
-    PERIOD=$3
-elif [ ${#@} -gt 1 ]; then
+if [ ${#@} -gt 1 ]; then
+    DIRNAME=$2_$1
     PERIOD="--before=$1 --after=$2" 
-    FILE="data/evo_$2_to_$1.log"
+    DIR="data/$DIRNAME"
 elif [ ${#@} -gt 0 ]; then
+    DIRNAME=$1
     PERIOD="--before=$1"
-    FILE="data/evo_$1.log"
+    DIR="data/$DIRNAME"
 fi
 
-eval "git log --pretty=format:'[%h] %an %ad %s' --date=short --numstat --no-merges --no-renames $PERIOD > $FILE"
+[[ ! `ls -a $DIR` ]] && `mkdir -p $DIR`
+
+eval "git log --pretty=format:'[%h] %an %ad %s' --date=short --numstat $PERIOD > $DIR/evo.log"
+
+cloc ./ --by-file --csv --quiet --exclude-dir=vendor --report-file=$DIR/lines.csv
 
 #git log --pretty=format:'[%h] %an %ad %s' --date=short --numstat --no-merges --no-renames --before=2013-06-01 --after=2013-01-01 > data/evo.log
 
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git > data/authors-revisions.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a abs-churn > data/abs-churn.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a age > data/age.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a author-churn > data/author-churn.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a authors > data/authors.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a communication > data/communication.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a coupling > data/coupling.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a entity-churn > data/entity-churn.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a entity-effort > data/entity-effort.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a entity-ownership > data/entity-ownership.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a fragmentation > data/fragmentation.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a identity > data/identity.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a main-dev > data/main-dev.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a main-dev-by-revs > data/main-dev-by-revs.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a messages > data/messages.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a refactoring-main-dev > data/refactoring-main-dev.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a revisions > data/revisions.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a soc > data/soc.csv
-java -jar code-maat-1.1-SNAPSHOT-standalone.jar -l data/evo*.log -c git -a summary > data/summary.csv
+# maat -l $DIR/evo*.log -c git > $DIR/authors-revisions.csv
+# default -a = authors
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a abs-churn > $DIR/abs-churn.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a age > $DIR/age.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a author-churn > $DIR/author-churn.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a authors > $DIR/authors.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a communication > $DIR/communication.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a coupling > $DIR/coupling.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a entity-churn > $DIR/entity-churn.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a entity-effort > $DIR/entity-effort.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a entity-ownership > $DIR/entity-ownership.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a fragmentation > $DIR/fragmentation.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a identity > $DIR/identity.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a main-dev > $DIR/main-dev.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a main-dev-by-revs > $DIR/main-dev-by-revs.csv
+# java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a messages > $DIR/messages.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a refactoring-main-dev > $DIR/refactoring-main-dev.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a revisions > $DIR/revisions.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a soc > $DIR/soc.csv
+java -jar $MAAT_HOME/code-maat-1.1-SNAPSHOT-standalone.jar -l $DIR/evo*.log -c git -a summary > $DIR/summary.csv
+
+python3 $MAAT_HOME/merge_comp_freqs.py $DIR/revisions.csv $DIR/lines.csv > $DIR/comp-freqs.csv
