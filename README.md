@@ -1,5 +1,11 @@
 # README
 
+## Prerequisite
+
+1. JAVA Runtime 8+
+2. Python3
+3. [cloc](https://github.com/AlDanial/cloc)
+
 ## Git log
 
 ```sh
